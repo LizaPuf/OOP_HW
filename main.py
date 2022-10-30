@@ -7,6 +7,15 @@ class Student:
         self.courses_in_progress = []
         self.grades = {}
 
+    def rate_lecture(self, lecturer, course, grade):
+        if isinstance(lecturer, Lecturer) and course in self.courses_in_progress and course in lecturer.courses_attached:
+            if course in lecturer.grades:
+                lecturer.grades[course] += [grade]
+            else:
+                lecturer.grades[course] = [grade]
+        else:
+            return 'Ошибка'
+
 
 class Mentor:
     def __init__(self, name, surname):
@@ -16,7 +25,20 @@ class Mentor:
 
 
 class Lecturer(Mentor):
-    pass
+
+    def __init__(self, name, surname):
+        super().__init__(name, surname)
+        self.grades = {}
+
+    def average_grade(self):
+        if not self.grades:
+            return "N/a"
+        total_grade = 0
+        grade_count = 0
+        for course, grade_list in self.grades.items():
+            grade_count += len(grade_list)
+            total_grade += sum(grade_list)
+        return total_grade / grade_count
 
 
 class Reviewer(Mentor):
