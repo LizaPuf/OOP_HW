@@ -28,7 +28,8 @@ class Lecturer(Mentor):
 
 
 class Reviewer(Mentor):
-    pass
+    def __str__(self):
+        return f'Имя: {self.name}\nФамилия: {self.surname}\n'
 
 
 best_student = Student('Ruoy', 'Eman', 'your_gender')
