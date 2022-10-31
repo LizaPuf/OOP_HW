@@ -32,7 +32,7 @@ class Student(AverageGradeMixin):
             return 'Ошибка'
 
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\n Средняя оценка за домашнее задание: {self.average_grade()}\n'
+        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашнее задание: {self.average_grade()}\nКурсы в процессе изучения: {self.courses_in_progress}\nЗавершенные курсы: {self.finished_courses}'
 
 
 
