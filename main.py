@@ -2,6 +2,7 @@ class AverageGradeMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.grades = {}
+
     def average_grade(self):
         if not self.grades:
             return "N/a"
@@ -22,6 +23,14 @@ class Student(AverageGradeMixin):
         self.finished_courses = []
         self.courses_in_progress = []
 
+    def sep_finished_courses(self):
+        finished = ','
+        return finished.join(self.finished_courses)
+
+    def sep_courses_in_progress(self):
+        progress = ','
+        return progress.join(self.courses_in_progress)
+
     def rate_lecture(self, lecturer, course, grade):
         if isinstance(lecturer, Lecturer) and course in self.courses_in_progress and course in lecturer.courses_attached:
             if course in lecturer.grades:
@@ -32,7 +41,7 @@ class Student(AverageGradeMixin):
             return 'Ошибка'
 
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашнее задание: {self.average_grade()}\nКурсы в процессе изучения: {self.courses_in_progress}\nЗавершенные курсы: {self.finished_courses}'
+        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашнее задание: {self.average_grade()}\nКурсы в процессе изучения: {self.sep_courses_in_progress()}\nЗавершенные курсы: {self.sep_finished_courses()}'
 
 
 
@@ -69,16 +78,18 @@ class Reviewer(Mentor):
 
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
+best_student.finished_courses += ['English for IT']
 
 cool_reviewer = Reviewer('Some', 'Buddy')
 cool_reviewer.courses_attached += ['Python']
 
 cool_reviewer.rate_hw(best_student, 'Python', 10)
-cool_reviewer.rate_hw(best_student, 'Python', 10)
-cool_reviewer.rate_hw(best_student, 'Python', 10)
+cool_reviewer.rate_hw(best_student, 'Python', 9)
+cool_reviewer.rate_hw(best_student, 'Python', 8)
 
-print(best_student.grades)
-print(best_student.average_grade())
+print(best_student)
+print()
+
 
 lekter = Lecturer("Hannibal", "Lekter")
 lekter.courses_attached += ['Python']
@@ -86,4 +97,3 @@ best_student.rate_lecture(lekter, 'Python', 10)
 best_student.rate_lecture(lekter, 'Python', 9)
 best_student.rate_lecture(lekter, 'Python', 8)
 print(lekter)
-print(best_student)
