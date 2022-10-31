@@ -1,11 +1,26 @@
-class Student:
+class AverageGradeMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.grades = {}
+    def average_grade(self):
+        if not self.grades:
+            return "N/a"
+        total_grade = 0
+        grade_count = 0
+        for course, grade_list in self.grades.items():
+            grade_count += len(grade_list)
+            total_grade += sum(grade_list)
+        return total_grade / grade_count
+
+
+class Student(AverageGradeMixin):
     def __init__(self, name, surname, gender):
+        super().__init__()
         self.name = name
         self.surname = surname
         self.gender = gender
         self.finished_courses = []
         self.courses_in_progress = []
-        self.grades = {}
 
     def rate_lecture(self, lecturer, course, grade):
         if isinstance(lecturer, Lecturer) and course in self.courses_in_progress and course in lecturer.courses_attached:
@@ -16,6 +31,11 @@ class Student:
         else:
             return 'Ошибка'
 
+    def __str__(self):
+        return f'Имя: {self.name}\nФамилия: {self.surname}\n Средняя оценка за домашнее задание: {self.average_grade()}\n'
+
+
+
 
 class Mentor:
     def __init__(self, name, surname):
@@ -24,24 +44,13 @@ class Mentor:
         self.courses_attached = []
 
 
-class Lecturer(Mentor):
+class Lecturer(AverageGradeMixin, Mentor):
 
     def __init__(self, name, surname):
         super().__init__(name, surname)
-        self.grades = {}
 
     def __str__(self):
         return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade()}\n'
-
-    def average_grade(self):
-        if not self.grades:
-            return "N/a"
-        total_grade = 0
-        grade_count = 0
-        for course, grade_list in self.grades.items():
-            grade_count += len(grade_list)
-            total_grade += sum(grade_list)
-        return total_grade / grade_count
 
 
 class Reviewer(Mentor):
@@ -69,6 +78,7 @@ cool_reviewer.rate_hw(best_student, 'Python', 10)
 cool_reviewer.rate_hw(best_student, 'Python', 10)
 
 print(best_student.grades)
+print(best_student.average_grade())
 
 lekter = Lecturer("Hannibal", "Lekter")
 lekter.courses_attached += ['Python']
@@ -76,3 +86,4 @@ best_student.rate_lecture(lekter, 'Python', 10)
 best_student.rate_lecture(lekter, 'Python', 9)
 best_student.rate_lecture(lekter, 'Python', 8)
 print(lekter)
+print(best_student)
