@@ -75,6 +75,19 @@ class Lecturer(AverageGradeMixin, Mentor):
     def __str__(self):
         return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade()}\n'
 
+    def __eq__(self, other):
+        if not isinstance(other, Lecturer):
+            return False
+        if self.average_grade() == other.average_grade():
+            return True
+        return False
+
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            return False
+        if self.average_grade() < other.average_grade():
+            return True
+        return False
 
 class Reviewer(Mentor):
     def __str__(self):
