@@ -94,6 +94,10 @@ best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
 best_student.finished_courses += ['English for IT']
 
+other_student = Student('Harry', 'Potter', 'your_gender')
+other_student.courses_in_progress += ['Python']
+other_student.finished_courses += ['English for IT']
+
 cool_reviewer = Reviewer('Some', 'Buddy')
 cool_reviewer.courses_attached += ['Python']
 
@@ -101,10 +105,17 @@ cool_reviewer.rate_hw(best_student, 'Python', 10)
 cool_reviewer.rate_hw(best_student, 'Python', 9)
 cool_reviewer.rate_hw(best_student, 'Python', 8)
 
+cool_reviewer.rate_hw(other_student, 'Python', 4)
+cool_reviewer.rate_hw(other_student, 'Python', 6)
+cool_reviewer.rate_hw(other_student, 'Python', 4)
+
 print(best_student)
+print(other_student)
 print()
-
-
+print(f"Отличник и двоечник равны по успеваемости?: {best_student == other_student}")
+print(f"Отличник хуже двоечника по успеваемости?: {best_student < other_student}")
+print(f"Отличник лучше двоечника по успеваемости?: {best_student > other_student}")
+print()
 lekter = Lecturer("Hannibal", "Lekter")
 lekter.courses_attached += ['Python']
 best_student.rate_lecture(lekter, 'Python', 10)
