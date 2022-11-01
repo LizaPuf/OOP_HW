@@ -55,9 +55,10 @@ class Student(AverageGradeMixin):
             return 'Ошибка'
 
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашнее задание: {self.average_grade()}\nКурсы в процессе изучения: {self.sep_courses_in_progress()}\nЗавершенные курсы: {self.sep_finished_courses()}'
-
-
+        return f'Имя: {self.name}\nФамилия: {self.surname}\n' + \
+               f'Средняя оценка за домашнее задание: {self.average_grade():.02f}\n' + \
+               f'Курсы в процессе изучения: {self.sep_courses_in_progress()}\n' + \
+               f'Завершенные курсы: {self.sep_finished_courses()}'
 
 
 class Mentor:
@@ -73,7 +74,7 @@ class Lecturer(AverageGradeMixin, Mentor):
         super().__init__(name, surname)
 
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade()}\n'
+        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade():.02f}'
 
     def __eq__(self, other):
         if not isinstance(other, Lecturer):
@@ -91,7 +92,7 @@ class Lecturer(AverageGradeMixin, Mentor):
 
 class Reviewer(Mentor):
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\n'
+        return f'Имя: {self.name}\nФамилия: {self.surname}'
 
     def rate_hw(self, student, course, grade):
         if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
@@ -113,6 +114,7 @@ def average_grade_by_course(people, course):
     return total_grade / grade_count
 
 
+print('СТУДЕНТЫ'.center(80))
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
 best_student.finished_courses += ['English for IT']
@@ -133,12 +135,17 @@ cool_reviewer.rate_hw(other_student, 'Python', 6)
 cool_reviewer.rate_hw(other_student, 'Python', 4)
 
 print(best_student)
+print()
 print(other_student)
 print()
 print(f"Отличник и двоечник равны по успеваемости?: {best_student == other_student}")
 print(f"Отличник хуже двоечника по успеваемости?: {best_student < other_student}")
 print(f"Отличник лучше двоечника по успеваемости?: {best_student > other_student}")
 print()
+python_avg_student_grade = average_grade_by_course([best_student, other_student],'Python')
+print(f"Средняя оценка домашнего задания посетителей курса Python: {python_avg_student_grade:.02f}")
+print()
+print('ПРЕПОДАВАТЕЛИ'.center(80))
 lekter = Lecturer("Hannibal", "Lekter")
 lekter.courses_attached += ['Python']
 best_student.rate_lecture(lekter, 'Python', 10)
@@ -159,3 +166,6 @@ print()
 print(f"Ганнибал и Северус равны по уровню преподавания?: {lekter == severus}")
 print(f"Ганнибал лучше Северуса по уровню преподавания?: {lekter > severus}")
 print(f"Ганнибал хуже Северуса по уровню преподавания?: {lekter < severus}")
+print()
+python_avg_lecturer_grade = average_grade_by_course([lekter, severus],'Python')
+print(f"Средняя оценка уровня преподавания лекторов курса Python: {python_avg_lecturer_grade:.02f}")
