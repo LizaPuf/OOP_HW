@@ -103,6 +103,16 @@ class Reviewer(Mentor):
             return 'Ошибка'
 
 
+def average_grade_by_course(people, course):
+    total_grade = 0
+    grade_count = 0
+    for person in people:
+        grade_list = person.grades.get(course, [])
+        grade_count += len(grade_list)
+        total_grade += sum(grade_list)
+    return total_grade / grade_count
+
+
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
 best_student.finished_courses += ['English for IT']
