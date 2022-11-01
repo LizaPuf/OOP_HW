@@ -23,6 +23,20 @@ class Student(AverageGradeMixin):
         self.finished_courses = []
         self.courses_in_progress = []
 
+    def __eq__(self, other):
+        if not isinstance(other, Student):
+            return False
+        if self.average_grade() == other.average_grade():
+            return True
+        return False
+
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            return False
+        if self.average_grade() < other.average_grade():
+            return True
+        return False
+
     def sep_finished_courses(self):
         finished = ','
         return finished.join(self.finished_courses)
